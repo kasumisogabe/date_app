@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background: linear-gradient(to right, #ece9e6, #ffffff);
+        font-family: 'Courier New', monospace;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      h2 {
+        color: #666;
+        font-size: 48px;
+      }
+
+      input {
+        margin: 10px 0;
+        padding: 5px;
+      }
+
+      button {
+        margin: 10px 0;
+        padding: 5px 10px;
+        background-color: #f8b500;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>デジタル時計</h1>
+    <h2 id="clock"></h2>
+
+    <h1>アラーム機能</h1>
+    <input type="time" id="alarmTime">
+    <button onclick="setAlarm()">アラームセット</button>
+
+    <h1>タイマー機能</h1>
+    <input type="number" id="timerMinutes" placeholder="Minutes">
+    <input type="number" id="timerSeconds" placeholder="Seconds">
+    <button onclick="setTimer()">タイマーセット</button>
+
+    <script>
+      // 日付、時計
+      function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleString();
+        document.getElementById('clock').innerText = timeString;
+      }
+      setInterval(updateClock, 1000);
+
+      // アラーム機能
+      let alarmTimeout;
+      function setAlarm() {
+        const alarmTimeInput = document.getElementById('alarmTime').value;
+        const now = new Date();
+        const alarmTime = new Date(now.toDateString() + ' ' + alarmTimeInput);
+        const timeToAlarm = alarmTime.getTime() - now.getTime();
+        if (timeToAlarm >= 0) {
+            alarmTimeout = setTimeout(() => alert('Alarm!'), timeToAlarm);
+        }
+      }
+
+      // タイマー機能
+      let timerTimeout;
+      function setTimer() {
+        const minutes = document.getElementById('timerMinutes').value;
+        const seconds = document.getElementById('timerSeconds').value;
+        const timeToAlert = minutes * 60 * 1000 + seconds * 1000;
+        timerTimeout = setTimeout(() => alert('Timer done!'), timeToAlert);
+      }
+    </script>
+</body>
+</html>
